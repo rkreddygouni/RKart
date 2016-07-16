@@ -1,0 +1,72 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="lib/angular.min.js"></script>
+<script src="js/app.js"></script>
+</head>
+<body ng-app="sapient">`
+	<div ng-controller="DashBoardCtrl"  class="container" >
+
+	<div class="row"><h1>{{title}}</h1></div>
+	<div>
+		<div class="form-group col-md-2">
+		  <label for="sel1">Sort</label>
+		  <select class="form-control" ng-model="sortOrder" ng-change="sortBy()" id="sel1">
+		    <option value="1">Price high To Low</option>
+		    <option value="0">Price Low to High</option>
+		  </select>
+		</div>
+	</div>
+		<div class="row">
+			<div class="col-md-10">
+				<div ng-repeat="p in products | orderBy: Price : sortKey" class="products">
+						<div class="product col-md-3">
+							<div class="product-head">
+								<img class="" src="{{p.Image}}"> 
+								<span class="title">{{p.Name}}</span>
+								<div class="promotions" ng-repeat="pr in p.Promotions">
+									<span class="offer">
+										{{pr.Type}}
+									</span>
+									<span class=" description">{{pr.Description}}</span>
+								</div>	
+							</div>
+								
+							<div class="clearfix"></div>
+
+							<div class="product-footer">
+								<span class="tcost">{{p.totalPrice = p.Price*p.quantity}}</span>
+								<span class="cost">({{p.UnitPrice}}/each)</span>
+								<div class="s-quantity clearfix">
+								<span class="left btn btn-danger" ng-click="p.quantity = p.quantity-1">-</span>
+								<span class="quantity btn" ng-init="p.quantity=1">{{p.quantity}}</span>
+								<span class="right btn btn-primary"  ng-click="p.quantity = p.quantity+1">+</span>
+								<span class="btn btn-success" ng-click="addCart(p,$index);">Add </span>
+								</div>
+							</div>
+
+							
+						</div>
+					</div>
+			</div>
+			<div class="col-md-2">
+				<div class="c-heading">
+					Basket {{cartItem.lenth()}}
+				</div>
+				<div class="cart-itmes">
+					<div class="cart-item clearfix" ng-repeat="ct in cartItems track by $index">
+						<img src="{{ct.Image}}">
+						<span class="name">{{ct.Name}}</span>
+						<div class="clearfix"></div>
+						<span>{{ct.totalPrice = ct.quantity*ct.Price}}</span>
+						<span class="left btn btn-danger" ng-click="ct.quantity = ct.quantity-1">-</span>
+							<span class="quantity btn" ng-init="ct.quantity">{{ct.quantity}}</span>
+							<span class="right btn btn-primary"  ng-click="ct.quantity = ct.quantity+1">+</span>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+</body>
+</html>
